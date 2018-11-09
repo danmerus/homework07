@@ -5,15 +5,23 @@ import scala.collection.mutable
 
 class SortingSpec extends FlatSpec with Matchers {
   it should "merge sort orrectly 1" in {
-    Sorting.mergeSort(mutable.ListBuffer(2,1,6,4,5,3)) shouldEqual mutable.ListBuffer(1,2,3,4,5,6)
+    val lb = mutable.ListBuffer(2,1,6,4,5,3)
+    Sorting.mergeSort(lb)
+    lb shouldEqual mutable.ListBuffer(1,2,3,4,5,6)
   }
   it should "merge sort orrectly 2" in {
-    Sorting.mergeSort(mutable.ListBuffer('c','a','b')) shouldEqual mutable.ListBuffer('a','b','c')
+    val lb = mutable.ListBuffer('c','a','b')
+    Sorting.mergeSort(lb)
+    lb shouldEqual mutable.ListBuffer('a','b','c')
   }
   it should "quick sort orrectly 1" in {
-    Sorting.quickSort(mutable.ListBuffer(2,1,6,4,5,3)) shouldEqual mutable.ListBuffer(1,2,3,4,5,6)
+    val lb = mutable.IndexedSeq(2,1,6,4,5,3)
+    Sorting.quickSort2(lb,0,5)
+    lb shouldEqual mutable.IndexedSeq(1,2,3,4,5,6)
   }
   it should "quick sort orrectly 2" in {
-    Sorting.quickSort(mutable.ListBuffer('c','a','b')) shouldEqual mutable.ListBuffer('a','b','c')
+    val lb = mutable.IndexedSeq('c','a','b')
+    Sorting.quickSort2(lb,0,2)
+    lb shouldEqual mutable.IndexedSeq('a','b','c')
   }
 }

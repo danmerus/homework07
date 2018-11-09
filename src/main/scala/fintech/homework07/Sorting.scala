@@ -1,4 +1,5 @@
 package fintech.homework07
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 /**
@@ -36,7 +37,8 @@ object Sorting {
       val left = mergeSort(split._1)
       val right = mergeSort(split._2)
       val res = merge(left, right)
-      res
+      collection.clear
+      collection ++= res
     }
     else
     {
@@ -44,7 +46,7 @@ object Sorting {
     }
   }
 
-  def quickSort[T](collection: mutable.ListBuffer[T])(implicit ord: T => Ordered[T]): mutable.ListBuffer[T] = {
+  def quickSort[T](collection: mutable.IndexedSeq[T])(implicit ord: T => Ordered[T]): mutable.IndexedSeq[T] = {
       if (collection.length <= 1) {
         collection
       }
@@ -56,9 +58,35 @@ object Sorting {
       }
     }
 
+  def quickSort2[T](collection: mutable.IndexedSeq[T], start: Int, fin: Int)(implicit ord: T => Ordered[T]): Unit = {
+    if (start < fin) {
+      val p = partition(collection, start, fin)
+      quickSort2(collection, start, p - 1)
+      quickSort2(collection, p + 1, fin)
+    }
+
+    def partition(collection: mutable.IndexedSeq[T], start: Int, fin: Int): Int = {
+      val pivot = collection(fin)
+      var i = start
+      for (j <- start until fin) {
+        if (collection(j) <= pivot) {
+          val temp = collection(i)
+          collection(i) = collection(j)
+          collection(j) = temp
+          i += 1
+        }
+      }
+      val temp = collection(i)
+      collection(i) = collection(fin)
+      collection(fin) = temp
+      i
+    }
+  }
 
   def main(args: Array[String]): Unit = {
-    println(mergeSort(mutable.ListBuffer(2,1,6,4,5,3)))
-    println(quickSort(mutable.ListBuffer(2,1,6,4,5,3)))
+//    println(mergeSort(mutable.ListBuffer(2,1,6,4,5,3)))
+    val seq = mutable.IndexedSeq(2,1,6,4,5,3)
+    quickSort2(seq , 0 ,5)
+    println(seq)
   }
 }
